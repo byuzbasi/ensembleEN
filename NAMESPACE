@@ -1,0 +1,6 @@
+useDynLib(ensembleEN)
+importFrom(Rcpp, evalCpp)
+importFrom(stats, predict)
+export(ensembleEN)
+S3method('predict', 'ensembleEN')
+S3method('coef', 'ensembleEN')

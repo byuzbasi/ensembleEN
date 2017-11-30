@@ -1,0 +1,17 @@
+Package: ensembleEN
+Type: Package
+Title: Ensembling Regularized Linear Models
+Version: 1.0.9
+Date: 2017-11-12
+Author: Anthony Christidis <anthony.christidis@stat.ubc.ca>,
+    Ezequiel Smucler <ezequiels.90@gmail.com>,
+    Ruben Zamar <ruben@stat.ubc.ca>
+Maintainer: Ezequiel Smucler <ezequiels.90@gmail.com>
+Description: Functions to compute ensembles of Elastic Net
+             regularized linear models.
+License: GPL (>= 2)
+Imports: Rcpp (>= 0.12.12)
+LinkingTo: Rcpp, RcppArmadillo
+Suggests: testthat, glmnet, MASS
+NeedsCompilation: yes
+RoxygenNote: 6.0.1
