@@ -9,7 +9,7 @@
 \arguments{
 \item{object}{Fitted ensembleEN object.}
 
-\item{index}{Indices indicating values of lambda_S at which to predict. Defaults to the optimal value.}
+\item{index}{Indices indicating values of lambda_S at which to extract coefficients. Defaults to the optimal value.}
 
 \item{...}{Additional arguments for compatibility}
 }

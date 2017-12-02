@@ -13,19 +13,19 @@ ensembleEN(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity = 100,
 
 \item{y}{Response vector.}
 
-\item{num_lambdas_sparsity}{Number of penalty parameters for the individual coefficients.}
+\item{num_lambdas_sparsity}{Length of the grid of sparsity penalties.}
 
-\item{num_lambdas_diversity}{Number of penalty parameters for the interactions between groups.}
+\item{num_lambdas_diversity}{Length of the grid of diversity penalties.}
 
 \item{alpha}{Elastic Net tuning constant: the value must be between 0 and 1. Default is 1 (Lasso).}
 
-\item{num_groups}{Number of groups for the objective function.}
+\item{num_groups}{Number of models to build.}
 
-\item{tolerance}{Tolerance parameter to stop the iterations while cycling over the groups.}
+\item{tolerance}{Tolerance parameter to stop the iterations while cycling over the models.}
 
-\item{max_iter}{Maximum number of iterations before stopping the iterations while cycling over the groups.}
+\item{max_iter}{Maximum number of iterations before stopping the iterations while cycling over the models.}
 
-\item{num_folds}{Number of folds for the CV.}
+\item{num_folds}{Number of folds for cross-validating.}
 
 \item{num_threads}{Number of threads used for parallel computation over the folds.}
 }
@@ -47,12 +47,12 @@ Computes an ensemble of Elastic Net regularized linear models. The sparsity and 
 parameters are chosen automatically.
 }
 \details{
-Computes and ensemble of \code{num_groups} (\eqn{G}) Elastic Net regularized linear models, defined as the linear models
+Computes an ensemble of \code{num_groups} (\eqn{G}) Elastic Net regularized linear models, defined as the linear models
 \eqn{\boldsymbol{\beta}^{1},\dots, \boldsymbol{\beta}^{G}} that minimize
 \deqn{\sum\limits_{g=1}^{G}\left( \frac{1}{2n}\Vert \mathbf{y}-\mathbf{X} \boldsymbol{\beta}^{g}\Vert^{2} 
 +\lambda_{S}\left( \frac{(1-\alpha)}{2}\Vert \boldsymbol{\beta}^{g}\Vert_{2}^{2}+\alpha \Vert \boldsymbol{
 \beta \Vert_1}\right)+\frac{\lambda_{D}}{2}\sum\limits_{h\neq g}\sum_{j=1}^{p}\vert \beta_{j}^{h}\beta_{j}^{g}\vert \right),}
-over grids for the penalty parameters \eqn{\lambda_{S}} and \eqn{\lambda_{D}} that are chosen automatically by the program.
+over grids for the penalty parameters \eqn{\lambda_{S}} and \eqn{\lambda_{D}} that are built automatically.
 Larger values of \eqn{\lambda_{S}} encourage more sparsity within the models and larger values of \eqn{\lambda_{D}} encourage more diversity
 among them. 
 If \eqn{\lambda_{D}=0}, then all of the models in the ensemble are equal to the Elastic Net regularized

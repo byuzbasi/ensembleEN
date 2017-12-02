@@ -31,7 +31,7 @@ scalar_predict <- function(index, object, newx, type){
   return(output)
 }
 
-#' @title Make predictions from and ensembleEN object.
+#' @title Make predictions from an ensembleEN object.
 #' @param object Fitted ensembleEN object.
 #' @param newx Matrix of new values of x at which prediction are to be made. Ignored if type is "coefficients".
 #' @param index Indices indicating values of lambda_S at which to predict. Defaults to the optimal value.
@@ -74,7 +74,7 @@ predict.ensembleEN <- function(object, newx, index=object$index_opt, type = c("r
 
 #' @title Extract coefficients from an ensembleEN object.
 #' @param object Fitted ensembleEN object.
-#' @param index Indices indicating values of lambda_S at which to predict. Defaults to the optimal value.
+#' @param index Indices indicating values of lambda_S at which to extract coefficients. Defaults to the optimal value.
 #' @param ... Additional arguments for compatibility
 
 #' @return A vector of coefficients

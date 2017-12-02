@@ -2,7 +2,7 @@
 % Please edit documentation in R/methods.R
 \name{predict.ensembleEN}
 \alias{predict.ensembleEN}
-\title{Make predictions from and ensembleEN object.}
+\title{Make predictions from an ensembleEN object.}
 \usage{
 \method{predict}{ensembleEN}(object, newx, index = object$index_opt,
   type = c("response", "coefficients"), ...)
