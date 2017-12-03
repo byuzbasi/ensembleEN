@@ -27,6 +27,20 @@ AC_LANG(C)
 AC_CHECK_HEADERS(stdint.h inttypes.h limits.h float.h)
 
 ##
+## check for -restrict CFLAGS support
+##
+oldCflags="$CFLAGS"
+CFLAGS="$CFLAGS -restrict"
+AC_MSG_CHECKING([whether C supports -restrict])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([])],
+    [AC_MSG_RESULT([yes])]
+    [RESTRICT_CFLAGS=-restrict],
+    [AC_MSG_RESULT([no])]
+)
+CFLAGS="$oldCflags"
+AC_SUBST([RESTRICT_CFLAGS])
+
+##
 ## Check for OpenMP support
 ##
 AC_OPENMP
@@ -58,6 +72,67 @@ AC_SUBST(OPENMP_CFLAGS)
 ################################################################################
 AC_LANG(C++)
 AC_CHECK_HEADERS(stdint.h inttypes.h climits cfloat)
+
+# Check for "restrict" support
+restrict_support="no"
+
+AC_MSG_CHECKING([whether C++ supports restrict keyword])
+AC_COMPILE_IFELSE([
+    AC_LANG_PROGRAM([[]],
+                [[double *restrict ptr;]])
+],
+[
+    AC_MSG_RESULT([yes])
+    AC_DEFINE([RESTRICT],[restrict])
+    restrict_support=yes
+],
+[AC_MSG_RESULT([no])]
+)
+
+if test $restrict_support != "yes"; then
+    AC_MSG_CHECKING([whether C++ supports __restrict__ keyword])
+    AC_COMPILE_IFELSE([
+        AC_LANG_PROGRAM([[]],
+                    [[double *__restrict__ ptr;]])
+    ],
+    [
+        AC_MSG_RESULT([yes])
+        AC_DEFINE([RESTRICT],[__restrict__])
+        restrict_support="yes"
+    ],
+    [AC_MSG_RESULT([no])]
+    )
+fi
+
+if test $restrict_support != "yes"; then
+    AC_MSG_CHECKING([whether C++ supports __restrict keyword])
+    AC_COMPILE_IFELSE([
+        AC_LANG_PROGRAM([[]],
+                    [[double *__restrict ptr;]])
+    ],
+    [
+        AC_MSG_RESULT([yes])
+        AC_DEFINE([RESTRICT],[__restrict])
+        restrict_support=yes
+    ],
+    [AC_MSG_RESULT([no])]
+    )
+fi
+
+##
+## check for -restrict CXXFLAGS support
+##
+oldCXXflags="$CXXFLAGS"
+CXXFLAGS="$CXXFLAGS -restrict"
+AC_MSG_CHECKING([whether C++ supports -restrict])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([])],
+    [AC_MSG_RESULT([yes])]
+    [RESTRICT_CXXFLAGS=-restrict],
+    [AC_MSG_RESULT([no])]
+)
+CXXFLAGS="$oldCXXflags"
+AC_SUBST([RESTRICT_CXXFLAGS])
+
 
 ##
 ## Check for OpenMP support
