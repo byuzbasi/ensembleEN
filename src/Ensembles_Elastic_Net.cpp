@@ -5,10 +5,6 @@ using namespace arma;
 #include "config.h"
 
 
-/*  --------------------------------------- */
-/*  PRELIMINARY FUNCTIONS - PRIVATE TO CPP */
-/*  --------------------------------------- */
-
 // Function to return the positive part of any number
 double Positive_Part(const double & x){
   
@@ -48,10 +44,6 @@ double Soft_Thresholding(const double & x,
   return soft;
 }
 
-
-/*  ----------------------------------- */
-/*  ALGORITHM FUNCTIONS - EXPORTED TO R */
-/*  ----------------------------------- */
 
 arma::mat beta_weights(const arma::mat & beta,
                        const arma::uword & group){
