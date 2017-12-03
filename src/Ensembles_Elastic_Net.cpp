@@ -422,8 +422,7 @@ arma::vec CV_Ensemble_EN(const arma::mat & x,
   const arma::uvec indin = linspace<uvec>(0, n - 1, n);
   const arma::uvec inint = linspace<uvec>(0, n , num_folds + 1);
   arma::vec mses = zeros(num_lambdas, 1);
-  omp_set_num_threads(num_threads);
-# pragma omp parallel for schedule(static)
+# pragma omp parallel for num_threads(num_threads)
   for(arma::uword fold = 0; fold < num_folds; fold++){
     // Get test and training samples
     arma::uvec test = linspace<uvec>(inint[fold], inint[fold + 1] - 1, inint[fold + 1] - inint[fold]);
