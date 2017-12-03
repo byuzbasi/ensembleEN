@@ -2,8 +2,7 @@
 using namespace Rcpp;
 using namespace arma;
 // [[Rcpp::depends(RcppArmadillo)]]
-#include <omp.h>
-// [[Rcpp::plugins(openmp)]]
+#include "config.h"
 
 
 /*  --------------------------------------- */
