@@ -41,6 +41,7 @@ An object of class ensembleEN, a list with entries
 \item{cv_mse_sparsity}{Cross-validated prediction MSEs over the grid of sparsity penalties.}
 \item{cv_mse_diversity}{Cross-validated prediction MSEs over the grid of diversity penalties.}
 \item{cv_opt}{Optimal CV MSE.}
+\item{call}{The matched call.}
 }
 \description{
 Computes an ensemble of Elastic Net regularized linear models. The sparsity and diversity penalty
@@ -64,10 +65,10 @@ The final output is in the original scales.
 \examples{
 library(MASS)
 set.seed(1)
-beta <- c(0, 1, 1)
-Sigma <- diag(1, 3, 3)
-Sigma[2, 3] <- Sigma[3, 2] <- 0.9
-x <- mvrnorm(10, mu = rep(0, 3), Sigma = Sigma)
+beta <- c(rep(5, 5), rep(0, 45))
+Sigma <- matrix(0.5, 50, 50)
+diag(Sigma) <- 1
+x <- mvrnorm(10, mu = rep(0, 50), Sigma = Sigma)
 y <- x \%*\% beta + rnorm(10)
 fit <- ensembleEN(x, y, num_groups=2)
 coefs <- predict(fit, type="coefficients")

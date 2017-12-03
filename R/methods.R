@@ -1,4 +1,4 @@
-construct.ensembleEN <- function(object, x, y){
+construct.ensembleEN <- function(object, fn_call, x, y){
   class(object) <- append(class(object), "ensembleEN")
   num_betas <- dim(object$betas)[3]
   num_groups <- dim(object$betas)[2]
@@ -8,6 +8,7 @@ construct.ensembleEN <- function(object, x, y){
     as.numeric(muy_train) - as.numeric(mux_train %*% betas[,,k])
   }, object$betas, mux_train, muy_train, simplify = 'array')
   object$intercepts <- array(object$intercepts, dim = c(1, num_groups, num_betas))
+  append(object, fn_call)
   return(object)
 }
 

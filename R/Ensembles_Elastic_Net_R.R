@@ -22,6 +22,7 @@
 #' \item{cv_mse_sparsity}{Cross-validated prediction MSEs over the grid of sparsity penalties.}
 #' \item{cv_mse_diversity}{Cross-validated prediction MSEs over the grid of diversity penalties.}
 #' \item{cv_opt}{Optimal CV MSE.}
+#' \item{call}{The matched call.}
 
 #' 
 #' @description
@@ -48,10 +49,10 @@
 #' @examples 
 #' library(MASS)
 #' set.seed(1)
-#' beta <- c(0, 1, 1)
-#' Sigma <- diag(1, 3, 3)
-#' Sigma[2, 3] <- Sigma[3, 2] <- 0.9
-#' x <- mvrnorm(10, mu = rep(0, 3), Sigma = Sigma)
+#' beta <- c(rep(5, 5), rep(0, 45))
+#' Sigma <- matrix(0.5, 50, 50)
+#' diag(Sigma) <- 1
+#' x <- mvrnorm(10, mu = rep(0, 50), Sigma = Sigma)
 #' y <- x %*% beta + rnorm(10)
 #' fit <- ensembleEN(x, y, num_groups=2)
 #' coefs <- predict(fit, type="coefficients")
@@ -115,7 +116,8 @@ ensembleEN <- function(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity =
   
   output <- Main_Ensemble_EN(x.permutation, y.permutation, num_lambdas_sparsity, num_lambdas_diversity, alpha, num_groups, 
                              tolerance, max_iter, num_folds, num_threads)
-  output <- construct.ensembleEN(output, x, y)
+  fn_call <- match.call()
+  output <- construct.ensembleEN(output, fn_call, x, y)
   return(output)
 }
 
