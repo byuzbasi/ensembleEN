@@ -1,5 +1,5 @@
-construct.ensembleEN <- function(object, fn_call, x, y){
-  class(object) <- append(class(object), "ensembleEN")
+construct.cv.ensembleEN <- function(object, fn_call, x, y){
+  class(object) <- append("cv.ensembleEN", class(object))
   num_betas <- dim(object$betas)[3]
   num_groups <- dim(object$betas)[2]
   mux_train <- apply(x, 2, mean)
@@ -32,8 +32,8 @@ scalar_predict <- function(index, object, newx, type){
   return(output)
 }
 
-#' @title Make predictions from an ensembleEN object.
-#' @param object Fitted ensembleEN object.
+#' @title Make predictions from a cv.ensembleEN object.
+#' @param object Fitted cv.ensembleEN object.
 #' @param newx Matrix of new values of x at which prediction are to be made. Ignored if type is "coefficients".
 #' @param index Indices indicating values of lambda_S at which to predict. Defaults to the optimal value.
 #' @param type Either "response" for predicted values or "coefficients" for the estimated coefficients.
@@ -42,11 +42,11 @@ scalar_predict <- function(index, object, newx, type){
 #' @return Either a matrix with predictions or a vector of coefficients
 #' 
 #' @description 
-#' Make predictions from and ensembleEN object, similar to other predict methods.
+#' Make predictions from a cv.ensembleEN object, similar to other predict methods.
 #' 
 #' @seealso 
-#' \code{\link{predict.ensembleEN}}
-predict.ensembleEN <- function(object, newx, index=object$index_opt, type = c("response", "coefficients"), ...){
+#' \code{\link{predict.cv.ensembleEN}}
+predict.cv.ensembleEN <- function(object, newx, index=object$index_opt, type = c("response", "coefficients"), ...){
   if (any(!is.numeric(index), index < 0, index > dim(object$betas)[3])){
     stop("index has to be vector of positive integers, the largest of which
          has to be smaller than or equal to the length of the grid for the sparsity penalties")
@@ -73,18 +73,18 @@ predict.ensembleEN <- function(object, newx, index=object$index_opt, type = c("r
   return(output)
 }
 
-#' @title Extract coefficients from an ensembleEN object.
-#' @param object Fitted ensembleEN object.
+#' @title Extract coefficients from a cv.ensembleEN object.
+#' @param object Fitted cv.ensembleEN object.
 #' @param index Indices indicating values of lambda_S at which to extract coefficients. Defaults to the optimal value.
 #' @param ... Additional arguments for compatibility
 
 #' @return A vector of coefficients
 #' 
 #' @description 
-#' Extract coefficients from an ensembleEN object.
+#' Extract coefficients from a cv.ensembleEN object.
 #' 
 #' @seealso 
-#' \code{\link{ensembleEN}}
-coef.ensembleEN <- function(object, index=object$index_opt,...){
+#' \code{\link{cv.ensembleEN}}
+coef.cv.ensembleEN <- function(object, index=object$index_opt,...){
   return(predict(object, index = index, type = "coefficients"))
 }

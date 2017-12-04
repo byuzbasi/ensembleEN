@@ -11,7 +11,7 @@
 #' @param num_folds Number of folds for cross-validating.
 #' @param num_threads Number of threads used for parallel computation over the folds.
 
-#' @return An object of class ensembleEN, a list with entries
+#' @return An object of class cv.ensembleEN, a list with entries
 #' \item{betas}{Coefficients computed over the path of penalties for sparsity; the penalty for diversity is fixed at the optimal value.}
 #' \item{intercepts}{Intercepts for each of the models along the path of penalties for sparsity.}
 #' \item{index_opt}{Index of the optimal penalty parameter for sparsity.}
@@ -44,7 +44,7 @@
 #' The predictors and the response are standardized to zero mean and unit variance before any computations are performed.
 #' The final output is in the original scales.
 #' 
-#' @seealso \code{\link{predict.ensembleEN}}, \code{\link{coef.ensembleEN}}
+#' @seealso \code{\link{predict.cv.ensembleEN}}, \code{\link{coef.cv.ensembleEN}}
 #' 
 #' @examples 
 #' library(MASS)
@@ -54,11 +54,11 @@
 #' diag(Sigma) <- 1
 #' x <- mvrnorm(10, mu = rep(0, 50), Sigma = Sigma)
 #' y <- x %*% beta + rnorm(10)
-#' fit <- ensembleEN(x, y, num_groups=2)
+#' fit <- cv.ensembleEN(x, y, num_groups=2)
 #' coefs <- predict(fit, type="coefficients")
 #' 
 
-ensembleEN <- function(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity = 100, alpha = 1, num_groups = 10,
+cv.ensembleEN <- function(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity = 100, alpha = 1, num_groups = 10,
                        tolerance = 1e-7, max_iter = 1e5, num_folds = 10, num_threads = 1){
   # Some sanity checks on the input
   if (all(!inherits(x, "matrix"), !inherits(x, "data.frame"))) {
@@ -117,7 +117,7 @@ ensembleEN <- function(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity =
   output <- Main_Ensemble_EN(x.permutation, y.permutation, num_lambdas_sparsity, num_lambdas_diversity, alpha, num_groups, 
                              tolerance, max_iter, num_folds, num_threads)
   fn_call <- match.call()
-  output <- construct.ensembleEN(output, fn_call, x, y)
+  output <- construct.cv.ensembleEN(output, fn_call, x, y)
   return(output)
 }
 
