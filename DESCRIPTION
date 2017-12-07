@@ -1,8 +1,8 @@
 Package: ensembleEN
 Type: Package
 Title: Ensembling Regularized Linear Models
-Version: 1.0.9
-Date: 2017-11-12
+Version: 1.1.0
+Date: 2017-12-06
 Author: Anthony Christidis <anthony.christidis@stat.ubc.ca>,
     Ezequiel Smucler <ezequiels.90@gmail.com>,
     Ruben Zamar <ruben@stat.ubc.ca>
