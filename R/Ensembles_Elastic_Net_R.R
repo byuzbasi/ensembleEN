@@ -5,7 +5,7 @@
 #' @param num_lambdas_sparsity Length of the grid of sparsity penalties.
 #' @param num_lambdas_diversity Length of the grid of diversity penalties.
 #' @param alpha Elastic Net tuning constant: the value must be between 0 and 1. Default is 1 (Lasso).
-#' @param num_groups Number of models to build.
+#' @param num_models Number of models to build.
 #' @param tolerance Tolerance parameter to stop the iterations while cycling over the models.
 #' @param max_iter Maximum number of iterations before stopping the iterations while cycling over the models.
 #' @param num_folds Number of folds for cross-validating.
@@ -30,7 +30,7 @@
 #' parameters are chosen automatically.
 #' 
 #' @details
-#' Computes an ensemble of \code{num_groups} (\eqn{G}) Elastic Net regularized linear models, defined as the linear models
+#' Computes an ensemble of \code{num_models} (\eqn{G}) Elastic Net regularized linear models, defined as the linear models
 #' \eqn{\boldsymbol{\beta}^{1},\dots, \boldsymbol{\beta}^{G}} that minimize
 #' \deqn{\sum\limits_{g=1}^{G}\left( \frac{1}{2n}\Vert \mathbf{y}-\mathbf{X} \boldsymbol{\beta}^{g}\Vert^{2} 
 #' +\lambda_{S}\left( \frac{(1-\alpha)}{2}\Vert \boldsymbol{\beta}^{g}\Vert_{2}^{2}+\alpha \Vert \boldsymbol{
@@ -54,11 +54,11 @@
 #' diag(Sigma) <- 1
 #' x <- mvrnorm(50, mu = rep(0, 50), Sigma = Sigma)
 #' y <- x %*% beta + rnorm(50)
-#' fit <- cv.ensembleEN(x, y, num_groups=10)
+#' fit <- cv.ensembleEN(x, y, num_models=10)
 #' coefs <- predict(fit, type="coefficients")
 #' 
 
-cv.ensembleEN <- function(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity = 100, alpha = 1, num_groups = 10,
+cv.ensembleEN <- function(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity = 100, alpha = 1, num_models = 10,
                        tolerance = 1e-7, max_iter = 1e5, num_folds = 10, num_threads = 1){
   # Some sanity checks on the input
   if (all(!inherits(x, "matrix"), !inherits(x, "data.frame"))) {
@@ -97,6 +97,11 @@ cv.ensembleEN <- function(x, y, num_lambdas_sparsity = 100, num_lambdas_diversit
   } else if (any(!max_iter == floor(max_iter), max_iter <= 0)) {
     stop("max_iter should be a positive integer")
   }
+  if (!inherits(num_models, "numeric")) {
+    stop("num_models should be numeric")
+  } else if (any(!num_models == floor(num_models), num_models <= 1)) {
+    stop("num_models should be an integer, greater than one")
+  }
   if (!inherits(num_lambdas_sparsity, "numeric")) {
     stop("num_lambdas_sparsity should be numeric")
   } else if (any(!num_lambdas_sparsity == floor(num_lambdas_sparsity), num_lambdas_sparsity <= 0)) {
@@ -114,7 +119,7 @@ cv.ensembleEN <- function(x, y, num_lambdas_sparsity = 100, num_lambdas_diversit
   x.permutation <- x[random.permutation, ]
   y.permutation <- y[random.permutation]
   
-  output <- Main_Ensemble_EN(x.permutation, y.permutation, num_lambdas_sparsity, num_lambdas_diversity, alpha, num_groups, 
+  output <- Main_Ensemble_EN(x.permutation, y.permutation, num_lambdas_sparsity, num_lambdas_diversity, alpha, num_models, 
                              tolerance, max_iter, num_folds, num_threads)
   fn_call <- match.call()
   output <- construct.cv.ensembleEN(output, fn_call, x, y)

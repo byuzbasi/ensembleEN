@@ -5,7 +5,7 @@
 \title{Ensembles of elastic net algorithm with a sparsity and diversity penalty.}
 \usage{
 cv.ensembleEN(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity = 100,
-  alpha = 1, num_groups = 10, tolerance = 1e-07, max_iter = 1e+05,
+  alpha = 1, num_models = 10, tolerance = 1e-07, max_iter = 1e+05,
   num_folds = 10, num_threads = 1)
 }
 \arguments{
@@ -19,7 +19,7 @@ cv.ensembleEN(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity = 100,
 
 \item{alpha}{Elastic Net tuning constant: the value must be between 0 and 1. Default is 1 (Lasso).}
 
-\item{num_groups}{Number of models to build.}
+\item{num_models}{Number of models to build.}
 
 \item{tolerance}{Tolerance parameter to stop the iterations while cycling over the models.}
 
@@ -48,7 +48,7 @@ Computes an ensemble of Elastic Net regularized linear models. The sparsity and 
 parameters are chosen automatically.
 }
 \details{
-Computes an ensemble of \code{num_groups} (\eqn{G}) Elastic Net regularized linear models, defined as the linear models
+Computes an ensemble of \code{num_models} (\eqn{G}) Elastic Net regularized linear models, defined as the linear models
 \eqn{\boldsymbol{\beta}^{1},\dots, \boldsymbol{\beta}^{G}} that minimize
 \deqn{\sum\limits_{g=1}^{G}\left( \frac{1}{2n}\Vert \mathbf{y}-\mathbf{X} \boldsymbol{\beta}^{g}\Vert^{2} 
 +\lambda_{S}\left( \frac{(1-\alpha)}{2}\Vert \boldsymbol{\beta}^{g}\Vert_{2}^{2}+\alpha \Vert \boldsymbol{
@@ -70,7 +70,7 @@ Sigma <- matrix(0.5, 50, 50)
 diag(Sigma) <- 1
 x <- mvrnorm(50, mu = rep(0, 50), Sigma = Sigma)
 y <- x \%*\% beta + rnorm(50)
-fit <- cv.ensembleEN(x, y, num_groups=10)
+fit <- cv.ensembleEN(x, y, num_models=10)
 coefs <- predict(fit, type="coefficients")
 
 }
