@@ -33,7 +33,7 @@ y_large_std <- y_large_cen / sqrt(mean(y_large_cen**2))
 x_large_test <- x_large_std + rnorm(n)
 
 # Groups to use for EN in all comparisons
-groups <- c(1, 2, 3)
+groups <- c(2, 3, 5)
 
 
 for(group in groups){
