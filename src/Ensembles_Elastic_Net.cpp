@@ -413,7 +413,7 @@ arma::vec CV_Ensemble_EN(const arma::mat & x,
   const arma::uword num_lambdas = lambdas_grid.n_rows;
   const arma::uvec indin = linspace<uvec>(0, n - 1, n);
   const arma::uvec inint = linspace<uvec>(0, n , num_folds + 1);
-  arma::vec mses = zeros(num_lambdas, 1);
+  arma::mat mses = zeros(num_lambdas, num_folds);
 # pragma omp parallel for num_threads(num_threads)
   for(arma::uword fold = 0; fold < num_folds; fold++){
     // Get test and training samples
@@ -426,11 +426,12 @@ arma::vec CV_Ensemble_EN(const arma::mat & x,
                              tolerance, max_iter);
     arma::mat preds = Prediction_Grid(x.rows(test), x.rows(train), y.rows(train), betas);
     for(arma::uword i = 0; i < num_lambdas; i++){
-      mses[i] += accu(square(y.rows(test) - preds.col(i)));
+      mses.at(i, fold) = accu(square(y.rows(test) - preds.col(i)));
     }
   }
   mses /= n;
-  return(mses);
+  arma::vec out = sum(mses, 1);
+  return(out);
 }
 
 // [[Rcpp::export]]
