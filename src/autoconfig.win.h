@@ -1,8 +1,8 @@
 /* confdefs.h */
 #define PACKAGE_NAME "ensembleEN"
 #define PACKAGE_TARNAME "ensembleen"
-#define PACKAGE_VERSION "1.0.9"
-#define PACKAGE_STRING "pense 1.0.9"
+#define PACKAGE_VERSION "1.1.0"
+#define PACKAGE_STRING "pense 1.1.0"
 #define PACKAGE_BUGREPORT ""
 #define PACKAGE_URL ""
 #define STDC_HEADERS 1

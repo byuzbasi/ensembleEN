@@ -1,4 +1,4 @@
-AC_INIT(ensembleEN, 1.0.9)
+AC_INIT(ensembleEN, 1.1.0)
 
 : ${R_HOME=`R RHOME`}
 if test -z "${R_HOME}"; then
