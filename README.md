@@ -5,7 +5,7 @@
 ensembleEN
 ==========
 
-This package provides functions for computing ensembles of regularized linear regression estimators as defined in Christidis, Lakshmanan, Smucler and Zamar (2017).
+This package provides functions for computing the ensembles of regularized linear regression estimators defined in [Christidis, Lakshmanan, Smucler and Zamar](https://arxiv.org/abs/1712.03561).
 
 ------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ Sigma <- matrix(0.5, 50, 50)
 diag(Sigma) <- 1
 x <- mvrnorm(50, mu = rep(0, 50), Sigma = Sigma)
 y <- x %*% beta + rnorm(50)
-fit <- cv.ensembleEN(x, y, num_groups=10) # Use 10 models
+fit <- cv.ensembleEN(x, y, num_models=10) # Use 10 models
 coefs <- predict(fit, type="coefficients")
 ```
 
