@@ -5,7 +5,7 @@
 ensembleEN
 ==========
 
-This package provides functions for computing the ensembles of regularized linear regression estimators defined in [Christidis, Lakshmanan, Smucler and Zamar](https://arxiv.org/abs/1712.03561).
+This package provides functions for computing the ensembles of regularized linear regression estimators defined in [Christidis, Lakshmanan, Smucler and Zamar (2017)](https://arxiv.org/abs/1712.03561).
 
 ------------------------------------------------------------------------
 
