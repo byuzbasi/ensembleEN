@@ -587,8 +587,6 @@ List Main_Ensemble_EN(const arma::mat & x_perm,
   ret["index_opt"] = index_opt[0] + 1;
   ret["lambda_sparsity_opt"] = lambda_sparsity_opt;
   ret["lambda_diversity_opt"] = lambda_diversity_opt;
-  ret["cv_mse_sparsity"] = mses_sparsity;
-  ret["cv_mse_diversity"] = mses_diversity;
   ret["lambdas_sparsity"] = lambdas_sparsity;
   ret["lambdas_diversity"] = lambdas_diversity;
   ret["cv_mse_opt"] = cv_mse_opt; 
