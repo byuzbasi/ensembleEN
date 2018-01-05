@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Build Status](https://travis-ci.org/esmucler/ensembleEN.svg?branch=master)](https://travis-ci.org/esmucler/ensembleEN)
+[![Build Status](https://travis-ci.org/esmucler/ensembleEN.svg?branch=master)](https://travis-ci.org/esmucler/ensembleEN) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/ensembleEN)](https://cran.r-project.org/package=ensembleEN) [![Downloads](http://cranlogs.r-pkg.org/badges/ensembleEN)](https://cran.r-project.org/package=ensembleEN)
 
 ensembleEN
 ==========
@@ -10,6 +10,12 @@ This package provides functions for computing the ensembles of regularized linea
 ------------------------------------------------------------------------
 
 ### Installation
+
+You can install the **stable** version on [R CRAN](https://cran.r-project.org/package=ensembleEN).
+
+``` r
+install.packages('ensembleEN', dependencies = TRUE)
+```
 
 You can install the **development** version from [GitHub](https://github.com/esmucler/ensembleEN)
 
