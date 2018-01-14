@@ -40,9 +40,9 @@ test_that(paste0("Equality for p<n"), {
   for (ind in 1:length(ks)){
     k <- ks[ind]
     cv_sparse <- CV_Ensemble_EN(x_small_std, y_small_std, 1, lams, 0,
-                                             alpha = 1, num_groups=10, num_folds=10, tolerance=1e-10, max_iter=1e10,num_threads=1)
+                                             alpha = 1, num_groups=10, num_folds=10, tolerance=1e-11, max_iter=1e10,num_threads=1)
     cv_div <- CV_Ensemble_EN(x_small_std, y_small_std,2, c(0,lams), lams[k],
-                                          alpha = 1, num_groups=10, num_folds=10, tolerance=1e-10, max_iter=1e10,num_threads=1)
+                                          alpha = 1, num_groups=10, num_folds=10, tolerance=1e-11, max_iter=1e10,num_threads=1)
     difs[ind] <- abs(1 - cv_div[1]/cv_sparse[k])
   }
   expect_lte(max(difs), 1e-3)
@@ -56,9 +56,9 @@ test_that(paste0("Equality for p>n"), {
   for (ind in 1:length(ks)){
     k <- ks[ind]
     cv_sparse <- CV_Ensemble_EN(x_large_std, y_large_std, 1, lams, 0,
-                                             alpha = 1, num_groups=10, num_folds=10, tolerance=1e-10, max_iter=1e10,num_threads=1)
+                                             alpha = 1, num_groups=10, num_folds=10, tolerance=1e-11, max_iter=1e10,num_threads=1)
     cv_div <- CV_Ensemble_EN(x_large_std, y_large_std,2, c(0,lams), lams[k],
-                                          alpha = 1, num_groups=10, num_folds=10, tolerance=1e-10, max_iter=1e10,num_threads=1)
+                                          alpha = 1, num_groups=10, num_folds=10, tolerance=1e-11, max_iter=1e10,num_threads=1)
     difs[ind] <- abs(1 - cv_div[1]/cv_sparse[k])
   }
   expect_lte(max(difs), 1e-3)
