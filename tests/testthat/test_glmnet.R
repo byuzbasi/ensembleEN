@@ -49,7 +49,7 @@ for(alpha in alphas){
     error <- (coef_glmnet - coef_phalanx)^2
     
     
-    expect_true(max(error) < 1e-4)
+    expect_lte(max(error), 1e-4)
   })
   
   
@@ -69,6 +69,6 @@ for(alpha in alphas){
     error <- (coef_glmnet - coef_phalanx)^2
     
     
-    expect_true(max(error) < 1e-4)
+    expect_lte(max(error), 1e-4)
   })
 }

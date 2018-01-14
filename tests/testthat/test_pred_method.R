@@ -44,7 +44,7 @@ for(group in groups){
     preds_manual <- mean(y_small_std) - as.numeric(apply(apply(x_small_std, 2, mean) %*% coef, 1, mean)) + 
       as.numeric(apply(x_small_test %*% coef, 1, mean))
     error <- sqrt(sum((preds - preds_manual)^2))
-    expect_true(error < 1e-10)
+    expect_lte(error, 1e-10)
   })
   
   
@@ -56,6 +56,6 @@ for(group in groups){
     preds_manual <- mean(y_large_std) - as.numeric(apply(apply(x_large_std, 2, mean) %*% coef, 1, mean)) + 
       as.numeric(apply(x_large_test%*% coef, 1, mean))
     error <- sqrt(sum((preds - preds_manual)^2))
-    expect_true(error < 1e-10)
+    expect_lte(error, 1e-10)
   })
 }
