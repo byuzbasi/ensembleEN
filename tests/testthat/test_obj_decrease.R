@@ -83,16 +83,16 @@ for (alpha in alphas){
   
   
   test_that(paste0("Objective function decreases for p<n, lambda_D!=0, ", "alpha=", alpha), {
-    fit_glmnet <- glmnet(x_large_std, y_large_std, alpha = alpha)
+    fit_glmnet <- glmnet(x_small_std, y_small_std, alpha = alpha)
     lambda_sparsity <- sort(fit_glmnet$lambda)
     length_grid <- length(lambda_sparsity)
     objective_values <- matrix(NA, length(fit_glmnet$lambda), length(num_iter))
     for (i in 1:length(num_iter)){
-      fit_phalanx <- Ensemble_EN_Grid(x_large_std, y_large_std, which_lambda = 1, lambdas_grid = lambda_sparsity,
-                                                   lambda_fixed = 0.1, alpha = alpha, num_groups = num_groups,
-                                                   tolerance = 0, max_iter = num_iter[i])
+      fit_phalanx <- Ensemble_EN_Grid(x_small_std, y_small_std, which_lambda = 1, lambdas_grid = lambda_sparsity,
+                                      lambda_fixed = 0.1, alpha = alpha, num_groups = num_groups,
+                                      tolerance = 0, max_iter = num_iter[i])
       resids_phalanx <- lapply(1:length_grid,
-                               function(k, fit_phalanx) { matrix(y_large_std, ncol = num_groups, nrow = length(y_large_std)) - x_large_std %*% fit_phalanx[,,k]}, fit_phalanx)
+                               function(k, fit_phalanx) { matrix(y_small_std, ncol = num_groups, nrow = length(y_small_std)) - x_small_std %*% fit_phalanx[,,k]}, fit_phalanx)
       
       objective_values[,i] <- sapply(1:length(fit_glmnet$lambda), 
                                      function(k, current_res, beta, lambdas_sparsity, lambdas_diversity, alpha){
