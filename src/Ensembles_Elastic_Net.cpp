@@ -380,7 +380,7 @@ arma::uvec Set_Diff(const arma::uvec & big,
   zeros = find(test != 0);
   return(zeros);
 }
-
+// [[Rcpp::export]]
 arma::vec CV_Ensemble_EN(const arma::mat & x,
                          const arma::vec & y,
                          const arma::uword & which_lambda,
