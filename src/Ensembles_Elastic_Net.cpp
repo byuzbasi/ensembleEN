@@ -85,7 +85,7 @@ double Ensemble_EN_Objective(const arma::mat & current_res,
   // Compute the Ensemble EN objective function
   double n = current_res.n_rows;
   arma::mat squared_res = square(current_res);
-  double loss = accu(squared_res) / (2 * n);
+  double loss = accu(squared_res / (2 * n));
   double EN_pen = EN_penalty(beta, lambda_sparsity, alpha);
   double ensemble_EN_pen = Objective_Penalty(beta, lambda_diversity);
   double objective = loss + EN_pen + ensemble_EN_pen;
@@ -130,7 +130,7 @@ void Cycling(const arma::mat & x,
     old_coef = out_beta(j, group);
     out_beta(j, group) = 0;
     // Current residuals
-    resid_corr = (1 / n) * dot(x.col(j), current_res.col(group)) + old_coef;
+    resid_corr = dot(x.col(j), current_res.col(group) / n) + old_coef;
     // Update
     out_beta(j, group) = Soft_Thresholding(resid_corr, thresh[j]) / stdz;
     if (out_beta(j, group) != old_coef){
@@ -430,10 +430,9 @@ arma::vec CV_Ensemble_EN(const arma::mat & x,
     arma::cube preds = Prediction_Grid(x.rows(test), x.rows(train), y.rows(train), betas);
     arma::mat preds_ave = mean(preds, 1);
     for(arma::uword i = 0; i < num_lambdas; i++){
-      mses.at(i, fold) = accu(square(y.rows(test) - preds_ave.col(i)));
+      mses.at(i, fold) = accu(square(y.rows(test)/sqrt(n) - preds_ave.col(i)/sqrt(n)));
     }
   }
-  mses /= n;
   arma::vec out = sum(mses, 1);
   return(out);
 }
