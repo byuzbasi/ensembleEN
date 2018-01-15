@@ -38,7 +38,7 @@ An object of class cv.ensembleEN, a list with entries
 \item{lambda_diversity_opt}{Optimal penalty parameter for diversity.}
 \item{lambdas_sparsity}{Grid of sparsity parameters.}
 \item{lambdas_diversity}{Grid of diversity parameters.}
-\item{cv_opt}{Optimal CV MSE.}
+\item{cv_mse_opt}{Optimal CV MSE.}
 \item{call}{The matched call.}
 }
 \description{
