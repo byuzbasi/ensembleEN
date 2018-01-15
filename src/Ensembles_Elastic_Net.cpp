@@ -149,7 +149,6 @@ void Ensemble_EN_Solver(const arma::mat & x,
                         const arma::uword & num_groups,
                         const double & tolerance,
                         const arma::uword & max_iter,
-                        const double & sd_y,
                         arma::mat & current_res,
                         arma::mat & beta){
   // Solves ensembles EN function for fixed penalty terms. Assumes x and y
@@ -177,7 +176,6 @@ void Ensemble_EN_Solver(const arma::mat & x,
   double null_RSS = 0;
   
   beta_old = beta;
-  null_RSS = (1 / n) * accu(square(y)) * pow(sd_y, 2);
   stdz = 1 + lambda_sparsity * (1 - alpha);
   // Do one cycle to start with
   iteration += 1;
@@ -189,7 +187,7 @@ void Ensemble_EN_Solver(const arma::mat & x,
   }
   beta_old = beta;
   // cout << '\n' << objective_new << '\n';
-  while((conv_crit > (tolerance * null_RSS)) & (iteration <= max_iter)){
+  while((conv_crit > tolerance) & (iteration <= max_iter)){
     iteration += 1;
      for (arma::uword group = 0; group < num_groups; group++){
        // Update penalty
@@ -262,7 +260,7 @@ arma::cube Ensemble_EN_Grid(const arma::mat & x,
       // Use the solver. Iterations start at beta_old_grid. Output
       // is written to beta_old_grid, residuals are updated in current_res
       Ensemble_EN_Solver(x_std, y_std, lambdas_grid[i], lambda_fixed,
-                        alpha, num_groups, tolerance, max_iter, sd_y, current_res, beta_old_grid);
+                        alpha, num_groups, tolerance, max_iter, current_res, beta_old_grid);
       out_betas.slice(i) = beta_old_grid;
       // De-standardization of the beta coefficients
       out_betas.slice(i).each_col() /= (sd_x.t());
@@ -272,7 +270,7 @@ arma::cube Ensemble_EN_Grid(const arma::mat & x,
         // Use the solver. Iterations start at beta_old_grid. 
         // Output is written to beta_old_grid
         Ensemble_EN_Solver(x_std, y_std, lambda_fixed, lambdas_grid[i],
-                          alpha, num_groups, tolerance, max_iter, sd_y, current_res, beta_old_grid);
+                          alpha, num_groups, tolerance, max_iter, current_res, beta_old_grid);
         out_betas.slice(i) = beta_old_grid;
         // De-standardization f the beta coefficients
         out_betas.slice(i).each_col() /= (sd_x.t());
