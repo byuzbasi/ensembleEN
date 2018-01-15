@@ -21,6 +21,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// Prediction_Grid
+arma::cube Prediction_Grid(const arma::mat& x_test, const arma::mat& x_train, const arma::vec& y_train, const arma::cube& grid_betas);
+RcppExport SEXP _ensembleEN_Prediction_Grid(SEXP x_testSEXP, SEXP x_trainSEXP, SEXP y_trainSEXP, SEXP grid_betasSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type x_test(x_testSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type x_train(x_trainSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type y_train(y_trainSEXP);
+    Rcpp::traits::input_parameter< const arma::cube& >::type grid_betas(grid_betasSEXP);
+    rcpp_result_gen = Rcpp::wrap(Prediction_Grid(x_test, x_train, y_train, grid_betas));
+    return rcpp_result_gen;
+END_RCPP
+}
 // Ensemble_EN_Grid
 arma::cube Ensemble_EN_Grid(const arma::mat& x, const arma::vec& y, const int& which_lambda, const arma::vec& lambdas_grid, const double& lambda_fixed, const double& alpha, const arma::uword& num_groups, const double& tolerance, const arma::uword& max_iter);
 RcppExport SEXP _ensembleEN_Ensemble_EN_Grid(SEXP xSEXP, SEXP ySEXP, SEXP which_lambdaSEXP, SEXP lambdas_gridSEXP, SEXP lambda_fixedSEXP, SEXP alphaSEXP, SEXP num_groupsSEXP, SEXP toleranceSEXP, SEXP max_iterSEXP) {
@@ -84,6 +98,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ensembleEN_Ensemble_EN_Objective", (DL_FUNC) &_ensembleEN_Ensemble_EN_Objective, 5},
+    {"_ensembleEN_Prediction_Grid", (DL_FUNC) &_ensembleEN_Prediction_Grid, 4},
     {"_ensembleEN_Ensemble_EN_Grid", (DL_FUNC) &_ensembleEN_Ensemble_EN_Grid, 9},
     {"_ensembleEN_CV_Ensemble_EN", (DL_FUNC) &_ensembleEN_CV_Ensemble_EN, 11},
     {"_ensembleEN_Main_Ensemble_EN", (DL_FUNC) &_ensembleEN_Main_Ensemble_EN, 10},

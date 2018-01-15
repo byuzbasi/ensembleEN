@@ -5,6 +5,10 @@ Ensemble_EN_Objective <- function(current_res, beta, lambda_sparsity, lambda_div
     .Call('_ensembleEN_Ensemble_EN_Objective', PACKAGE = 'ensembleEN', current_res, beta, lambda_sparsity, lambda_diversity, alpha)
 }
 
+Prediction_Grid <- function(x_test, x_train, y_train, grid_betas) {
+    .Call('_ensembleEN_Prediction_Grid', PACKAGE = 'ensembleEN', x_test, x_train, y_train, grid_betas)
+}
+
 Ensemble_EN_Grid <- function(x, y, which_lambda, lambdas_grid, lambda_fixed, alpha, num_groups, tolerance, max_iter) {
     .Call('_ensembleEN_Ensemble_EN_Grid', PACKAGE = 'ensembleEN', x, y, which_lambda, lambdas_grid, lambda_fixed, alpha, num_groups, tolerance, max_iter)
 }

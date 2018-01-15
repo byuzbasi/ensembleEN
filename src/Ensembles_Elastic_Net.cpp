@@ -92,18 +92,21 @@ double Ensemble_EN_Objective(const arma::mat & current_res,
   return objective;
 }
 
-arma::mat Prediction_Grid(const arma::mat & x_test,
-                       const arma::mat & x_train,
-                       const arma::vec & y_train,
-                       const arma::cube & grid_betas){
+// [[Rcpp::export]]
+arma::cube Prediction_Grid(const arma::mat & x_test,
+                           const arma::mat & x_train,
+                           const arma::vec & y_train,
+                           const arma::cube & grid_betas){
   // Function that returns predictions from a sequence of betas (coefficients)
   arma::uword n = x_test.n_rows;
   arma::uword len_grid = grid_betas.n_slices;
-  arma::mat predictions = zeros(n, len_grid);
+  arma::uword num_models = grid_betas.n_cols;
+  arma::cube predictions = zeros(n, num_models, len_grid);
   arma::rowvec mu_x = mean(x_train);
   double mu_y = mean(y_train);
   for(arma::uword i = 0; i < len_grid; i++){
-    predictions.col(i) =  mu_y - mean(mu_x * grid_betas.slice(i)) + mean(x_test * grid_betas.slice(i), 1);
+    predictions.slice(i) =  mu_y + x_test * grid_betas.slice(i);
+    predictions.slice(i).each_row() -= mu_x * grid_betas.slice(i);
   }
   return(predictions);
 }
@@ -424,9 +427,10 @@ arma::vec CV_Ensemble_EN(const arma::mat & x,
     betas = Ensemble_EN_Grid(x.rows(train), y.rows(train), which_lambda,
                              lambdas_grid, lambda_fixed, alpha, num_groups,
                              tolerance, max_iter);
-    arma::mat preds = Prediction_Grid(x.rows(test), x.rows(train), y.rows(train), betas);
+    arma::cube preds = Prediction_Grid(x.rows(test), x.rows(train), y.rows(train), betas);
+    arma::mat preds_ave = mean(preds, 1);
     for(arma::uword i = 0; i < num_lambdas; i++){
-      mses.at(i, fold) = accu(square(y.rows(test) - preds.col(i)));
+      mses.at(i, fold) = accu(square(y.rows(test) - preds_ave.col(i)));
     }
   }
   mses /= n;
