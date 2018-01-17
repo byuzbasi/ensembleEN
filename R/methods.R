@@ -8,7 +8,7 @@ construct.cv.ensembleEN <- function(object, fn_call, x, y){
     as.numeric(muy_train) - as.numeric(mux_train %*% betas[,,k])
   }, object$betas, mux_train, muy_train, simplify = 'array')
   object$intercepts <- array(object$intercepts, dim = c(1, num_groups, num_betas))
-  append(object, fn_call)
+  object$call <- fn_call
   return(object)
 }
 
