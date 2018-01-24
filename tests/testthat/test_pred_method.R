@@ -19,8 +19,8 @@ x_small_test <- x_small_std + rnorm(n)
 
 
 set.seed(1)
-n <- 100
-p <- 200
+n <- 50
+p <- 75
 x_large <- matrix
 rho = 0.8
 sigma <- (1 - rho) * diag(x = 1, p, p) + rho
@@ -38,7 +38,7 @@ groups <- c(2, 3, 5)
 
 for(group in groups){
   test_that(paste0("Equality for p<n, groups = ", group), {
-    object <- cv.ensembleEN(x_small_std, y_small_std, num_models = group)
+    object <- cv.ensembleEN(x_small_std, y_small_std, num_models = group, num_folds = 5)
     preds <- predict(object, newx = x_small_test)
     coef <- object$betas[,,object$index_opt]
     preds_manual <- mean(y_small_std) - as.numeric(apply(apply(x_small_std, 2, mean) %*% coef, 1, mean)) + 
@@ -53,7 +53,7 @@ for(group in groups){
   
   test_that(paste0("Equality for p>n, groups = ", group), {
     
-    object <- cv.ensembleEN(x_large_std, y_large_std, num_models = group)
+    object <- cv.ensembleEN(x_large_std, y_large_std, num_models = group, num_folds = 5)
     preds <- predict(object, newx = x_large_test)
     coef <- object$betas[,,object$index_opt]
     preds_manual <- mean(y_large_std) - as.numeric(apply(apply(x_large_std, 2, mean) %*% coef, 1, mean)) + 

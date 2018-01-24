@@ -5,7 +5,7 @@
 \title{Ensembles of elastic net algorithm with a sparsity and diversity penalty.}
 \usage{
 cv.ensembleEN(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity = 100,
-  alpha = 1, num_models = 10, tolerance = 1e-07, max_iter = 1e+05,
+  alpha = 1, num_models = 10, tolerance = 1e-10, max_iter = 1e+05,
   num_folds = 10, num_threads = 1)
 }
 \arguments{

@@ -33,6 +33,7 @@ scalar_predict <- function(index, object, newx, type){
 }
 
 #' @title Make predictions from a cv.ensembleEN object.
+#' @method predict cv.ensembleEN
 #' @param object Fitted cv.ensembleEN object.
 #' @param newx Matrix of new values of x at which prediction are to be made. Ignored if type is "coefficients".
 #' @param index Indices indicating values of lambda_S at which to predict. Defaults to the optimal value.
@@ -74,6 +75,7 @@ predict.cv.ensembleEN <- function(object, newx, index=object$index_opt, type = c
 }
 
 #' @title Extract coefficients from a cv.ensembleEN object.
+#' @method coef cv.ensembleEN
 #' @param object Fitted cv.ensembleEN object.
 #' @param index Indices indicating values of lambda_S at which to extract coefficients. Defaults to the optimal value.
 #' @param ... Additional arguments for compatibility
