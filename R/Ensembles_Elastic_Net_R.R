@@ -57,7 +57,7 @@
 #' 
 
 cv.ensembleEN <- function(x, y, num_lambdas_sparsity = 100, num_lambdas_diversity = 100, alpha = 1, num_models = 10,
-                       tolerance = 1e-10, max_iter = 1e5, num_folds = 10, num_threads = 1){
+                       tolerance = 1e-8, max_iter = 1e5, num_folds = 10, num_threads = 1){
   # Some sanity checks on the input
   if (all(!inherits(x, "matrix"), !inherits(x, "data.frame"))) {
     stop("x should belong to one of the following classes: matrix, data.frame")
