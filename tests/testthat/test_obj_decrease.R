@@ -17,10 +17,10 @@ y_small_cen <- y_small - mean(y_small)
 y_small_std <- y_small_cen / sqrt(mean(y_small_cen**2))
 
 set.seed(1)
-n <- 100
-p <- 200
+n <- 50
+p <- 100
 x_large <- matrix
-rho = 0.8
+rho = 0.2
 sigma <- (1 - rho) * diag(x = 1, p, p) + rho
 x_large <- mvrnorm(n, mu = rep(0, p), Sigma = sigma)
 true_beta <- c(rep(1, 10), rep(0, p - 10))
@@ -31,7 +31,7 @@ y_large_std <- y_large_cen / sqrt(mean(y_large_cen**2))
 # Groups to use for EN in all comparisons
 num_groups <- 3
 # alpha to use
-alphas <- c(0, 1/2, 3/4, 1)
+alphas <- c(0.1, 3/4, 1)
 # Number of iterations to perform
 num_iter <- c(1, 2, 5, 10, 20)
 
