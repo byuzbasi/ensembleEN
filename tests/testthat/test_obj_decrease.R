@@ -87,18 +87,19 @@ for (alpha in alphas){
     lambda_sparsity <- sort(fit_glmnet$lambda)
     length_grid <- length(lambda_sparsity)
     objective_values <- matrix(NA, length(fit_glmnet$lambda), length(num_iter))
+    lambda_diversity <- 0.1
     for (i in 1:length(num_iter)){
       fit_phalanx <- Ensemble_EN_Grid(x_small_std, y_small_std, which_lambda = 1, lambdas_grid = lambda_sparsity,
-                                      lambda_fixed = 0.1, alpha = alpha, num_groups = num_groups,
+                                      lambda_fixed = lambda_diversity, alpha = alpha, num_groups = num_groups,
                                       tolerance = 0, max_iter = num_iter[i])
       resids_phalanx <- lapply(1:length_grid,
                                function(k, fit_phalanx) { matrix(y_small_std, ncol = num_groups, nrow = length(y_small_std)) - x_small_std %*% fit_phalanx[,,k]}, fit_phalanx)
       
       objective_values[,i] <- sapply(1:length(fit_glmnet$lambda), 
                                      function(k, current_res, beta, lambdas_sparsity, lambdas_diversity, alpha){
-                                       Ensemble_EN_Objective(resids_phalanx[[k]], fit_phalanx[,,k], lambda_sparsity[k], 0, alpha)
+                                       Ensemble_EN_Objective(resids_phalanx[[k]], fit_phalanx[,,k], lambda_sparsity[k], lambda_diversity, alpha)
                                      },
-                                     resids_phalanx, fit_phalanx, sort(fit_glmnet$lambda), 0, alpha)
+                                     resids_phalanx, fit_phalanx, sort(fit_glmnet$lambda), lambda_diversity, alpha)
       
     }
     expect_true(all(!apply(objective_values, 2, is.unsorted)))
@@ -110,18 +111,19 @@ for (alpha in alphas){
     lambda_sparsity <- sort(fit_glmnet$lambda)
     length_grid <- length(lambda_sparsity)
     objective_values <- matrix(NA, length(fit_glmnet$lambda), length(num_iter))
+    lambda_diversity <- 0.1
     for (i in 1:length(num_iter)){
       fit_phalanx <- Ensemble_EN_Grid(x_large_std, y_large_std, which_lambda = 1, lambdas_grid = lambda_sparsity,
-                                                   lambda_fixed = 0.1, alpha = alpha, num_groups = num_groups,
+                                                   lambda_fixed = lambda_diversity, alpha = alpha, num_groups = num_groups,
                                                    tolerance = 0, max_iter = num_iter[i])
       resids_phalanx <- lapply(1:length_grid,
                                function(k, fit_phalanx) { matrix(y_large_std, ncol = num_groups, nrow = length(y_large_std)) - x_large_std %*% fit_phalanx[,,k]}, fit_phalanx)
       
       objective_values[,i] <- sapply(1:length(fit_glmnet$lambda), 
                                      function(k, current_res, beta, lambdas_sparsity, lambdas_diversity, alpha){
-                                       Ensemble_EN_Objective(resids_phalanx[[k]], fit_phalanx[,,k], lambda_sparsity[k], 0, alpha)
+                                       Ensemble_EN_Objective(resids_phalanx[[k]], fit_phalanx[,,k], lambda_sparsity[k], lambda_diversity, alpha)
                                      },
-                                     resids_phalanx, fit_phalanx, sort(fit_glmnet$lambda), 0, alpha)
+                                     resids_phalanx, fit_phalanx, sort(fit_glmnet$lambda), lambda_diversity, alpha)
       
     }
     expect_true(all(!apply(objective_values, 2, is.unsorted)))
