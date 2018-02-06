@@ -64,7 +64,7 @@ for (alpha in alphas){
   for (lambda_sparsity in lambda_sparsities){
     for(lambda_diversity in lambda_diversities){
       objective_values <- rep(NA, length(num_iter))
-      test_that(paste0("Objective function decreases for p<n, lambda_D=", lambda_diversity, ", lambda_S=", lambda_sparsity, ", alpha=", alpha), {
+      test_that(paste0("Objective function decreases for p>n, lambda_D=", lambda_diversity, ", lambda_S=", lambda_sparsity, ", alpha=", alpha), {
         for (i in 1:length(num_iter)){
           fit_phalanx <- Ensemble_EN_Grid(x_large_std, y_large_std, which_lambda = 1, lambdas_grid = lambda_sparsity,
                                           lambda_fixed = lambda_diversity, alpha = alpha, num_groups = num_groups,
