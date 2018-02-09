@@ -49,7 +49,7 @@ arma::mat beta_weights(const arma::mat & beta,
                        const arma::uword & group){
   // Computes weights for the l1 interaction penalty term
   arma::uword num_groups = beta.n_cols;
-  arma::mat sum_abs = zeros(beta.n_cols, 1);
+  arma::mat sum_abs = zeros(beta.n_rows, 1);
   arma::vec indices = ones(num_groups, 1);
   indices[group] = 0;
   sum_abs = abs(beta) * indices;
@@ -64,9 +64,9 @@ double EN_penalty(const arma::mat & beta,
   return(penalty);
 }
 
-double Objective_Penalty(const arma::mat & beta,
-                       const double & lambda_diversity){
-  // Function to compute the objective function penalty
+double Diversity_Penalty(const arma::mat & beta,
+                         const double & lambda_diversity){
+  // Function to compute the diversity penalty
   double penalty = 0;
   arma::mat gram_beta = zeros(beta.n_rows, beta.n_rows);
   gram_beta = abs(beta.t()) * abs(beta);
@@ -87,7 +87,7 @@ double Ensemble_EN_Objective(const arma::mat & current_res,
   arma::mat squared_res = square(current_res);
   double loss = accu(squared_res / (2 * n));
   double EN_pen = EN_penalty(beta, lambda_sparsity, alpha);
-  double ensemble_EN_pen = Objective_Penalty(beta, lambda_diversity);
+  double ensemble_EN_pen = Diversity_Penalty(beta, lambda_diversity);
   double objective = loss + EN_pen + ensemble_EN_pen;
   return objective;
 }
