@@ -31,6 +31,11 @@ x_large_std <- scale(x_large, scale = apply(x_large, 2, function(xj) { sqrt(mean
 y_large_cen <- y_large - mean(y_large)
 y_large_std <- y_large_cen / sqrt(mean(y_large_cen**2))
 x_large_test <- x_large_std + rnorm(n)
+
+num_groups <- 3
+alpha <- 1
+num_folds <- 5
+
 ks <- c(1, 25, 35)
 test_that(paste0("Equality over sparsity for p<n"), {
   set.seed(1)
@@ -40,12 +45,12 @@ test_that(paste0("Equality over sparsity for p<n"), {
   for (ind in 1:length(ks)){
     k <- ks[ind]
     cv_sparse <- CV_Ensemble_EN(x_small_std, y_small_std, 1, lams, 0,
-                                             alpha = 1, num_groups=3, num_folds=5, tolerance=1e-11, max_iter=1e10,num_threads=1)
+                                             alpha=alpha, num_groups=num_groups, num_folds=num_folds, tolerance=1e-11, max_iter=1e10,num_threads=1)
     cv_div <- CV_Ensemble_EN(x_small_std, y_small_std,2, c(0,lams), lams[k],
-                                          alpha = 1, num_groups=3, num_folds=5, tolerance=1e-11, max_iter=1e10,num_threads=1)
+                                          alpha=alpha, num_groups=num_groups, num_folds=num_folds, tolerance=1e-11, max_iter=1e10,num_threads=1)
     difs[ind] <- abs(1 - cv_div[1]/cv_sparse[k])
   }
-  expect_lte(max(difs), 1e-3)
+  expect_lte(max(difs), 2e-2)
 })
 
 test_that(paste0("Equality over diversity for p<n"), {
@@ -56,15 +61,15 @@ test_that(paste0("Equality over diversity for p<n"), {
   for (ind in 1:length(ks)){
     k <- ks[ind]
     cv_sparse <- CV_Ensemble_EN(x_small_std, y_small_std, 1, lams, lams[1],
-                                alpha = 1, num_groups=3, num_folds=5, tolerance=1e-11, max_iter=1e10,num_threads=1)
+                                alpha=alpha, num_groups=num_groups, num_folds=num_folds, tolerance=1e-11, max_iter=1e10,num_threads=1)
     cv_div <- CV_Ensemble_EN(x_small_std, y_small_std,2, c(0,lams), lams[k],
-                             alpha = 1, num_groups=3, num_folds=5, tolerance=1e-11, max_iter=1e10,num_threads=1)
+                             alpha=alpha, num_groups=num_groups, num_folds=num_folds, tolerance=1e-11, max_iter=1e10,num_threads=1)
     difs[ind] <- abs(1 - cv_sparse[k]/cv_div[2])
   }
-  expect_lte(max(difs), 1e-3)
+  expect_lte(max(difs), 2e-2)
 })
 
-test_that(paste0("Equality over sparisty for p>n"), {
+test_that(paste0("Equality over sparsity for p>n"), {
   set.seed(1)
   lmax <- max(abs( t(x_large_std) %*% y_large_std / n))
   lams <- exp(seq(log(1e-2 * lmax), log(lmax), length.out=50))
@@ -72,12 +77,12 @@ test_that(paste0("Equality over sparisty for p>n"), {
   for (ind in 1:length(ks)){
     k <- ks[ind]
     cv_sparse <- CV_Ensemble_EN(x_large_std, y_large_std, 1, lams, 0,
-                                             alpha = 1, num_groups=3, num_folds=5, tolerance=1e-11, max_iter=1e10,num_threads=1)
+                                             alpha=alpha, num_groups=num_groups, num_folds=num_folds, tolerance=1e-11, max_iter=1e10,num_threads=1)
     cv_div <- CV_Ensemble_EN(x_large_std, y_large_std,2, c(0,lams), lams[k],
-                                          alpha = 1, num_groups=3, num_folds=5, tolerance=1e-11, max_iter=1e10,num_threads=1)
+                                          alpha=alpha, num_groups=num_groups, num_folds=num_folds, tolerance=1e-11, max_iter=1e10,num_threads=1)
     difs[ind] <- abs(1 - cv_div[1]/cv_sparse[k])
   }
-  expect_lte(max(difs), 1e-3)
+  expect_lte(max(difs), 2e-2)
 })
 
 test_that(paste0("Equality over diversity for p>n"), {
@@ -88,10 +93,10 @@ test_that(paste0("Equality over diversity for p>n"), {
   for (ind in 1:length(ks)){
     k <- ks[ind]
     cv_sparse <- CV_Ensemble_EN(x_large_std, y_large_std, 1, lams, lams[1],
-                                             alpha = 1, num_groups=3, num_folds=5, tolerance=1e-11, max_iter=1e10,num_threads=1)
+                                             alpha=alpha, num_groups=num_groups, num_folds=num_folds, tolerance=1e-11, max_iter=1e10,num_threads=1)
     cv_div <- CV_Ensemble_EN(x_large_std, y_large_std,2, c(0,lams), lams[k],
-                                          alpha = 1, num_groups=3, num_folds=5, tolerance=1e-11, max_iter=1e10,num_threads=1)
+                                          alpha=alpha, num_groups=num_groups, num_folds=num_folds, tolerance=1e-11, max_iter=1e10,num_threads=1)
     difs[ind] <- abs(1 - cv_sparse[k]/cv_div[2])
   }
-  expect_lte(max(difs), 1e-3)
+  expect_lte(max(difs), 2e-2)
 })
