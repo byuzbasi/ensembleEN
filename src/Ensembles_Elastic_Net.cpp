@@ -166,14 +166,12 @@ void Ensemble_EN_Solver(const arma::mat & x,
   // # Output
   // beta: slopes
   // current_res: residuals
-  double n = x.n_rows;
   arma::uword p = x.n_cols;
   arma::mat thresh = zeros(p, 1);
   double stdz = 0;
   double conv_crit = 1;
   arma::uword iteration = 0;
   arma::mat beta_old = zeros(p, num_groups);
-  double null_RSS = 0;
   
   beta_old = beta;
   stdz = 1 + lambda_sparsity * (1 - alpha);
